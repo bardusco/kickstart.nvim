@@ -136,14 +136,16 @@ end
 
 -- Function to build the prompt for the GPT-4 model
 local function buildPrompt(diff, intention)
-  local instructions = "Generate a professional git commit message using the Conventional Commits format. " ..
+  local instructions = "Generate a professional git commit message using the" ..
+      " Conventional Commits format. " ..
       "This includes using a commit type (such as 'feat', 'fix', 'refactor', etc.), " ..
-      "optionally a scope in parentheses, and a brief description that reflects the intention '" ..
-      intention ..
-      "'. All explanation must be inside the commit message. Do not write" ..
+      "optionally a scope in parentheses, and a brief description that reflects" ..
+      " the intention '" .. intention .. "'." ..
+      "- All explanation must be inside the commit message. Do not write" ..
       " anything before or affter." ..
-      "Do not enclose the commit message between ``` and ``` " ..
-      "Base the commit message on the changes provided below:\n" ..
+      "- Do not enclose the commit message between ``` and ```" ..
+      "- Add line breaks at collumn 78" ..
+      "- Base the commit message on the changes provided below:\n" ..
       diff
 
   return instructions
