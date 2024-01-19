@@ -140,7 +140,10 @@ local function buildPrompt(diff, intention)
       "This includes using a commit type (such as 'feat', 'fix', 'refactor', etc.), " ..
       "optionally a scope in parentheses, and a brief description that reflects the intention '" ..
       intention ..
-      "'. All explanation must be inside the commit message. Do not write anything before or affter. Base the commit message on the changes provided below:\n" ..
+      "'. All explanation must be inside the commit message. Do not write" ..
+      " anything before or affter." ..
+      "Do not enclose the commit message between ``` and ``` " ..
+      "Base the commit message on the changes provided below:\n" ..
       diff
 
   return instructions
