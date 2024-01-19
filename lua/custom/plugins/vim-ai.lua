@@ -124,13 +124,39 @@ vim.chat_engine_config = {
 -- " let g:vim_ai_complete = chat_engine_config
 -- " let g:vim_ai_edit = chat_engine_config
 
--- " custom command suggesting git commit message, takes no arguments
-local function GitCommitMessageFn()
-  --  " Obter o diff do git
-  local diff = vim.fn.system('git --no-pager diff --staged')
+-- Função para perguntar a intenção do commit ao usuário
+local function askCommitIntention()
+  return vim.fn.input('Enter the intention of the commit: ')
+end
 
-  -- " Construir a mensagem JSON
-  local prompt = "generate a short commit message from the diff below:\n" .. diff
+-- Função para obter o diff do git
+local function getGitDiff()
+  return vim.fn.system('git --no-pager diff --staged')
+end
+
+-- Function to build the prompt for the GPT-4 model
+local function buildPrompt(diff, intention)
+  local instructions = "Generate a professional git commit message using the Conventional Commits format. " ..
+      "This includes using a commit type (such as 'feat', 'fix', 'refactor', etc.), " ..
+      "optionally a scope in parentheses, and a brief description that reflects the intention '" ..
+      intention ..
+      "'. All explanation must be inside the commit message. Do not write anything before or affter. Base the commit message on the changes provided below:\n" ..
+      diff
+
+  return instructions
+end
+
+-- Função para executar a IA e gerar a mensagem de commit
+local function generateCommitMessage()
+  local intention = askCommitIntention()
+  local diff = getGitDiff()
+
+  if diff == "" then
+    print("No changes detected. Cannot generate commit message.")
+    return
+  end
+
+  local prompt = buildPrompt(diff, intention)
   local range = 0
   local config = {
     engine = "chat",
@@ -142,11 +168,13 @@ local function GitCommitMessageFn()
       temperature = 1,
     },
   }
+
   -- Executar a IA com a configuração fornecida
   vim.api.nvim_call_function('vim_ai#AIRun', { range, config, prompt })
 end
 
-vim.api.nvim_create_user_command('GitCommitMessage', GitCommitMessageFn, {})
+-- " Comando personalizado para sugerir mensagem de commit
+vim.api.nvim_create_user_command('GitCommitMessage', generateCommitMessage, {})
 
 local function CodeReviewFn(range)
   local prompt = "programming syntax is " .. vim.bo.filetype .. ", review the code below"
