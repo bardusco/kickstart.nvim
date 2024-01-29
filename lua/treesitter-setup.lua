@@ -5,7 +5,7 @@ vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
     modules = {},
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim', 'bash' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = true,
@@ -15,7 +15,15 @@ vim.defer_fn(function()
     ignore_install = {},
 
     highlight = { enable = true },
-    indent = { enable = true },
+    indent = {
+      enable = true,
+      -- Disabling because it was causing a few seconds of delay when creating
+      -- a new line in the file.
+      -- https://github.com/UserNobody14/tree-sitter-dart/issues/48
+      -- https://github.com/UserNobody14/tree-sitter-dart/issues/46
+      -- https://github.com/nvim-treesitter/nvim-treesitter/issues/4945
+      disable = { "dart", },
+    },
     incremental_selection = {
       enable = true,
       keymaps = {
@@ -28,6 +36,12 @@ vim.defer_fn(function()
     textobjects = {
       select = {
         enable = true,
+        -- Disabling because it was causing a few seconds of delay when creating
+        -- a new line in the file.
+        -- https://github.com/UserNobody14/tree-sitter-dart/issues/48
+        -- https://github.com/UserNobody14/tree-sitter-dart/issues/46
+        -- https://github.com/nvim-treesitter/nvim-treesitter/issues/4945
+        disable = { "dart", },
         lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
         keymaps = {
           -- You can use the capture groups defined in textobjects.scm
