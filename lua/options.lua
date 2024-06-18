@@ -71,4 +71,6 @@ vim.opt.fileencodings = 'utf-8'
 
 vim.opt.tabstop = 4
 
+vim.cmd('set verbosefile=~/neovim.log')
+vim.cmd('set verbose=15')
 -- vim: ts=2 sts=2 sw=2 et

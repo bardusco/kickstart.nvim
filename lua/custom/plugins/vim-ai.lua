@@ -134,7 +134,7 @@ local function getGitDiff()
   return vim.fn.system('git --no-pager diff --staged')
 end
 
--- Function to build the prompt for the GPT-4 model
+-- Função para construir o prompt para o modelo GPT-4
 local function buildPrompt(diff, intention)
   local instructions = "Generate a professional git commit message using the" ..
       " Conventional Commits format. " ..
@@ -142,9 +142,9 @@ local function buildPrompt(diff, intention)
       "optionally a scope in parentheses, and a brief description that reflects" ..
       " the intention '" .. intention .. "'." ..
       "- All explanation must be inside the commit message. Do not write" ..
-      " anything before or affter." ..
+      " anything before or after." ..
       "- Do not enclose the commit message between ``` and ```" ..
-      "- Add line breaks at collumn 78" ..
+      "- Add line breaks at column 78" ..
       "- Base the commit message on the changes provided below:\n" ..
       diff
 
@@ -178,7 +178,7 @@ local function generateCommitMessage()
   vim.api.nvim_call_function('vim_ai#AIRun', { config, prompt })
 end
 
--- " Comando personalizado para sugerir mensagem de commit
+-- Comando personalizado para sugerir mensagem de commit
 vim.api.nvim_create_user_command('GitCommitMessage', generateCommitMessage, {})
 
 -- Cria o comando GitAICommit
@@ -201,12 +201,11 @@ local function CodeReviewFn(range)
     },
   }
 
-  vim.api.nvim_call_function('vim_ai#AIChatRun', { range, config, prompt })
+  vim.fn['vim_ai#AIChatRun']({ range, config, prompt })
 end
 
 vim.api.nvim_create_user_command('CodeReview', CodeReviewFn, { range = true })
 
 return {
   'madox2/vim-ai'
-
 }
