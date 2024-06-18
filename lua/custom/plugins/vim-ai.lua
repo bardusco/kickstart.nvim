@@ -166,7 +166,7 @@ local function generateCommitMessage()
   local config = {
     engine = "chat",
     options = {
-      model = "gpt-4-1106-preview",
+      model = "gpt-4o",
       endpoint_url = "https://api.openai.com/v1/chat/completions",
       max_tokens = 1000,
       initial_prompt = ">>> system\nyou are a code assistant",
@@ -175,11 +175,22 @@ local function generateCommitMessage()
   }
 
   -- Executar a IA com a configuração fornecida
-  vim.api.nvim_call_function('vim_ai#AIRun', { range, config, prompt })
+  vim.api.nvim_call_function('vim_ai#AIRun', { config, prompt })
 end
 
 -- " Comando personalizado para sugerir mensagem de commit
 vim.api.nvim_create_user_command('GitCommitMessage', generateCommitMessage, {})
+
+-- Cria o comando GitAICommit
+vim.api.nvim_create_user_command('GitAICommit', function()
+  -- Inicia o Git commit
+  vim.cmd('Git commit')
+
+  -- Define um timer para esperar antes de executar GitCommitMessage
+  vim.defer_fn(function()
+    vim.cmd('GitCommitMessage')
+  end, 1500) -- Ajuste o tempo de espera conforme necessário (em milissegundos)
+end, {})
 
 local function CodeReviewFn(range)
   local prompt = "programming syntax is " .. vim.bo.filetype .. ", review the code below"
