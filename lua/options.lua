@@ -66,4 +66,9 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
 
 vim.o.autoread = true
 
+vim.opt.encoding = 'utf-8'
+vim.opt.fileencodings = 'utf-8'
+
+vim.opt.tabstop = 4
+
 -- vim: ts=2 sts=2 sw=2 et
