@@ -4,8 +4,6 @@ return {
   dependencies = { 'nvim-lua/plenary.nvim' }, -- Diffview.nvim depende de plenary.nvim
   config = function()
     -- Configuração personalizada, se necessário
-    local cb = require('diffview.config').diffview_callback
-
     require('diffview').setup({
       diff_binaries = false,   -- Show diffs for binaries
       enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
