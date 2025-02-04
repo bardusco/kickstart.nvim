@@ -240,6 +240,7 @@ vim.api.nvim_create_user_command('GitCommitMessage', generateCommitMessage, {})
 -- Cria o comando GitAICommit
 vim.api.nvim_create_user_command('GitAICommit', function()
 	-- Inicia o Git commit
+	vim.cmd('Gwrite')
 	vim.cmd('Git commit')
 
 	-- Define um timer para esperar antes de executar GitCommitMessage
